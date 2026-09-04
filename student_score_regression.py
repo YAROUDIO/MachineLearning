@@ -57,43 +57,6 @@ X_train, X_val, y_train, y_val = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
-# Fit linear regression
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-# Evaluate on the validation set
-y_pred = model.predict(X_val)
-mse = mean_squared_error(y_val, y_pred)
-rmse = np.sqrt(mse)
-r2 = r2_score(y_val, y_pred)
-
-print("=" * 50)
-print("VALIDATION RESULTS")
-print("=" * 50)
-print(f"MSE:  {mse:.3f}")
-print(f"RMSE: {rmse:.3f}")
-print(f"R^2:  {r2:.3f}")
-
-# Inspect coefficients
-print("\n" + "=" * 50)
-print("COEFFICIENTS")
-print("=" * 50)
-coef_table = pd.Series(model.coef_, index=X.columns).sort_values(key=abs, ascending=False)
-for name, coef in coef_table.items():
-    print(f"  {name:<28} {coef:+.3f}")
-print(f"  {'intercept':<28} {model.intercept_:+.3f}")
-
-#P-values via statsmodels
-
-X_train_sm = sm.add_constant(X_train)
-sm_model = sm.OLS(y_train, X_train_sm).fit()
-print("\n" + "=" * 50)
-print("P-VALUES (statsmodels OLS)")
-print("=" * 50)
-print(sm_model.summary())
-print(sm_model.pvalues)
-
-
 # Scatterplots with regression line
 numeric_features = ["study_time_hours", "attendance_percent", "sleep_hours", "previous_grade"]
 
